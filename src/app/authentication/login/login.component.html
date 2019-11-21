@@ -1,0 +1,83 @@
+<div class="login-register" style="background-image:url(assets/images/background/login-register.jpg);">
+    <div class="login-register-box">
+        <mat-card>
+            <mat-card-content>
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="text-center">
+                        <img alt="homepage" src="assets/images/logo-icon.png">
+                        <h4 class="m-t-0"></h4>
+                    </div>
+
+                    <div fxLayout="row wrap">
+                        <!-- col full-->
+                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                          <mat-form-field>
+                              <input
+                                matInput
+                                type="email"
+                                placeholder="Correo"
+                                [formControl]="form.controls['email']"
+                                
+                      />
+                            
+                            </mat-form-field>
+                            <small
+                              *ngIf="
+                                form.controls['password'].hasError('required') &&
+                                form.controls['password'].touched"
+                              class="text-danger support-text">Correo requerida.</small>
+                            
+                      </div>
+                        <!-- col full-->
+                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field>
+                                <input
+                                  matInput
+                                  type="password"
+                                  placeholder="Password"
+                                  [formControl]="form.controls['password']"
+                                  [type]="hide ? 'password' : 'text'"
+                                />
+                                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                              </mat-form-field>
+                              <small
+                                *ngIf="
+                                  form.controls['password'].hasError('required') &&
+                                  form.controls['password'].touched
+                                "
+                                class="text-danger support-text"
+                                >Contraseña requerida.</small
+                              >
+                              <small *ngIf="mostrarError" class="text-danger support-text"
+                                >Datos incorrectos</small
+                              >
+                        </div>
+                        <!-- col half-->
+                       
+                        <!-- col half-->
+                     
+                        <!-- col full-->
+                        <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <button
+                            mat-raised-button
+                            color="primary"
+                            class="btn-block btn-lg m-t-20 m-b-20"
+                            type="submit"
+                            [disabled]="!form.valid"
+                          >
+                            Ingresar
+                          </button>
+                        </div>
+                          <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                          <a href="https://play.google.com/store/apps/details?id=org.unitec.saludunitec2" >Descargar App Android</a>
+                          </div>
+                        
+                        <!-- col full-->
+                        
+                    </div>
+                </form>
+                <div fxLayout="row"  fxLayoutWrap="wrap" class="text-center" (click)="recuperar()"><button mat-button color="warn">Olvidaste tu contraseña?</button></div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

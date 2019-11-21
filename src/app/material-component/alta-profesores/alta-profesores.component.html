@@ -1,0 +1,19 @@
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+       
+        <mat-card>
+            <mat-card-content>
+                <mat-card-title>Altas de profesores</mat-card-title>
+                <p>Dé click en el botón Nuevo profesor para agregar un nuevo profesor. Llene todos los campos, una vez
+                     hecho el llenado, dé click en el disco de guardar.<br><br> Posteriormente si desea guardar uno profesor más
+                     dar click en el tache en rojo, y nuevamente dar click en el botón -Nuevo profesor- y rellenar nuevamente los campos con el nuevo profesor. 
+                     Proceder de la misma manera si desea agregar más profesores.
+                </p>
+                <div class="table-responsive smart-table">
+                    <ng2-smart-table [settings]="settings" [source]="data" (deleteConfirm)="onDeleteConfirm($event)" (editConfirm)="onSaveConfirm($event)"
+                    (createConfirm)="onCreateConfirm($event)"  class="mat-table no-wrap"></ng2-smart-table>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

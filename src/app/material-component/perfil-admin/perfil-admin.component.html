@@ -1,0 +1,62 @@
+<div fxLayout="row wrap">
+    <div fxFlex.gt-sm="100" fxFlex="100">
+      <mat-card>
+        <mat-card-content>
+          <mat-card-title>Perfil</mat-card-title>
+          <!-- ============================================================== -->
+          <!-- column -->
+          <!-- ============================================================== -->
+          <form  [formGroup]="formitaPerfil">
+            <div fxLayout="row wrap">
+            <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-form-field>
+              <input matInput placeholder="Nombre:" name="nombre" [(ngModel)]="perfil.nombre" [formControl]="formitaPerfil.controls['fnombre']">
+            </mat-form-field>
+            <mat-hint *ngIf="formitaPerfil.controls['fnombre'].hasError('required') && formitaPerfil.controls['fnombre'].touched"  class="text-danger font-14">Debes escribir tu nombre, es obligatorio</mat-hint>
+            </div>
+  
+            <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-form-field>
+              <input matInput placeholder="Apellido Paterno:" name="paterno" [(ngModel)]="perfil.paterno" [formControl]="formitaPerfil.controls['fpaterno']">
+            </mat-form-field>
+            <mat-hint *ngIf="formitaPerfil.controls['fpaterno'].hasError('required') && formitaPerfil.controls['fpaterno'].touched" class="text-danger font-14">Debes escribir tu a. paterno, es obligatorio</mat-hint>
+  
+            </div>
+  
+            <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-form-field>
+              <input matInput placeholder="Apellido Materno:" name="materno"   [(ngModel)]="perfil.materno" [formControl]="formitaPerfil.controls['fmaterno']">
+            </mat-form-field>
+            <mat-hint *ngIf="formitaPerfil.controls['fmaterno'].hasError('required') && formitaPerfil.controls['fmaterno'].touched" class="text-danger font-14">Debes escribir tu a. materno, es obligatorio</mat-hint>
+  
+            </div>
+  
+            <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            <mat-form-field>
+              <input matInput placeholder="Contraseña:" name="nip" [(ngModel)]="perfil.nip" [formControl]="formitaPerfil.controls['fnip']">
+            </mat-form-field>
+            <mat-hint *ngIf="formitaPerfil.controls['fnip'].hasError('required') && formitaPerfil.controls['fnip'].touched" class="text-danger font-14">Debes escribir tu NIP, es obligatorio</mat-hint>
+            <mat-hint *ngIf="formitaPerfil.controls['fnip'].hasError('minlength') && formitaPerfil.controls['fnip'].touched" class="text-danger font-14">Tu NIP debe tener mínimo 4 caracteres.</mat-hint>
+            </div>
+  
+  
+            <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+            
+            <mat-form-field>
+                <input matInput placeholder="Correo electrónico:" name="email"   [(ngModel)]="perfil.email" [formControl]="formitaPerfil.controls['femail']">
+              </mat-form-field>
+              <mat-hint *ngIf="formitaPerfil.controls['femail'].hasError('required') && formitaPerfil.controls['femail'].touched" class="text-danger font-14">Debe escribir su correo </mat-hint>
+              <mat-hint *ngIf="formitaPerfil.controls['femail'].errors?.email && formitaPerfil.controls['femail'].touched" class="text-danger font-14">Su correo no es válido.</mat-hint>
+            </div>
+            </div>
+             
+            <button
+             mat-raised-button class="fondo"
+             [disabled]="!formitaPerfil.valid"
+             (click)="actualizarPerfil()"
+          >Actualizar datos</button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

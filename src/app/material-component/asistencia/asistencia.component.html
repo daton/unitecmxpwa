@@ -1,0 +1,57 @@
+<div fxLayout=row wrap>
+  <h4> Asistencia</h4> 
+
+ 
+</div>
+<div fxLayout="row wrap">
+
+  <!-- Card column  Check In-->
+  <div fxFlex.gt-sm="33.33%" fxFlex="100">
+    
+    <mat-card>
+        <mat-card-content>
+            <mat-card-title>Primer momento </mat-card-title>
+            <mat-card-subtitle>
+             Check In: {{miPerfil.entrada}}
+            </mat-card-subtitle>
+            <div class="button-row">
+            <button mat-raised-button class="fondo" [disabled]="momentos.primerMomento"  (click)="chequin('checkin')">Check In</button>
+
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<!-- Card column  Check stau -->
+<div fxFlex.gt-sm="33.33%" fxFlex="100">
+      <mat-card>
+          <mat-card-content>
+              <mat-card-title>Segundo momento</mat-card-title>
+              <mat-card-subtitle>
+               Asistencia Check Stay
+              </mat-card-subtitle>
+              <div class="button-row">
+
+              <button mat-raised-button class="fondo"  [disabled]="momentos.segundoMomento"     (click)="chequin('checkstay')">Check Stay</button>
+              </div>
+          </mat-card-content>
+      </mat-card>
+  </div>
+
+<!-- Card column  Check out -->
+<div fxFlex.gt-sm="33.33%" fxFlex="100">
+      <mat-card>
+          <mat-card-content>
+              <mat-card-title>Tercer momento</mat-card-title>
+              <mat-card-subtitle>
+               Check Out: {{miPerfil.salida}}
+              </mat-card-subtitle>
+              <div class="button-row">
+              <button mat-raised-button class="fondo"  [disabled]="momentos.tercerMomento"     (click)="chequin('checkout')">Check Out</button>
+              </div>
+          </mat-card-content>
+      </mat-card>
+  </div>
+
+
+</div>

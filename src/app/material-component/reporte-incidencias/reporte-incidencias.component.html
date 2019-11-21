@@ -1,0 +1,88 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+  <div *ngIf="!esVisible" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>Reporte incidencias</mat-card-title>
+        <div class="bg-light p-10 p-r-20 p-l-20">
+          <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar">
+          </mat-form-field>
+        </div>
+
+        <mat-card-actions>
+          <button mat-raised-button class="fondo" (click)="exportToExcel()">Descargar Excel</button>
+        </mat-card-actions>
+        <div class="responsive-table">
+          <mat-table [dataSource]="dataSource" matSort>
+
+            <!-- ID Column -->
+            <ng-container matColumnDef="nombre">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Incidencia</mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <!--    <button mat-button (click)="jaja(row.nombre)"><mat-icon>contacts</mat-icon>   {{row.nombre}}</button>-->
+                {{row.nombre}}
+              </mat-cell>
+            </ng-container>
+
+            <!-- Progress Column -->
+            <ng-container matColumnDef="campus">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Campus </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.campus}}</mat-cell>
+            </ng-container>
+
+            <!-- Progress Column -->
+            <ng-container matColumnDef="fecha">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.fecha}}</mat-cell>
+            </ng-container>
+
+            <!-- Progress Column -->
+            <ng-container matColumnDef="idProfesor">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Clave </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.idProfesor}}</mat-cell>
+            </ng-container>
+            <!-- Progress Column -->
+            <ng-container matColumnDef="nombreProfesor">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre </mat-header-cell>
+              <mat-cell *matCellDef="let row"> {{row.nombreProfesor}}</mat-cell>
+            </ng-container>
+
+            <!-- Progress Column -->
+            <ng-container matColumnDef="semaforo">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Semáforo </mat-header-cell>
+              <mat-cell *matCellDef="let row">
+                <!-- {{row.Semaforo}}-->
+                <button mat-raised-button class="fondo ancho" (click)="obtenerFila(row)">
+                  {{row.semaforo}}
+                </button>
+              </mat-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;">
+            </mat-row>
+          </mat-table>
+
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        </div>
+
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div *ngIf="esVisible">
+    <section class="example-section">
+      <label id="example-radio-group-label">Seleccione el semáforo</label>
+      <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="semaforo">
+        <mat-radio-button class="example-radio-button" *ngFor="let valor of valores" [value]="valor">
+          {{valor}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <div>Semáforo a asignar: {{semaforo}}</div>
+    </section>
+    <button mat-raised-button class="fondo" (click)="asignarSemaforo(row)">
+      Asignar semáforo
+    </button>
+  </div>
+</div>

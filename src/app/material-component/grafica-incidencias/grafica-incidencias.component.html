@@ -1,0 +1,49 @@
+<!--<div fxLayout="row wrap">
+
+    <div fxFlex.gt-md="100">
+        <mat-card>
+            <mat-card-content>
+                <mat-card-title>Gráfico de incidencias</mat-card-title>
+                <mat-card-subtitle>
+                 Incidencias
+                </mat-card-subtitle>
+                <div class="w100">
+                 <p>Característica en construcción</p>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+  </div>
+-->
+
+
+<!-- ============================================================== -->
+<!-- Fixed height Card Grid-->
+
+<div fxLayout="row wrap">
+  <div fxFlex.gt-md="100">
+      <mat-card>
+          <mat-card-content>
+              <mat-card-title>Gráfica incidencias</mat-card-title>
+              <mat-card-subtitle>
+
+              </mat-card-subtitle>
+              <mat-form-field>
+                <input matInput placeholder="Introduce la clave del profesor" [(ngModel)]="claveProfesor">
+              </mat-form-field>
+
+              <div class="button-row">
+                <button mat-raised-button class="fondo"  (click)="graficar()">Graficar</button>
+                </div>
+
+              <div class="w100" *ngIf="mostrarGrafico">
+                  <ngx-charts-bar-vertical class="chart-container" [scheme]="colorScheme" [schemeType]="schemeType" [results]="single2" [gradient]="gradient"
+                      [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+                      [tooltipDisabled]="tooltipDisabled" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [showGridLines]="showGridLines"
+                      [barPadding]="40" [view]="view" [roundDomains]="roundDomains" (select)="select($event)" (legendLabelClick)="onLegendLabelClick($event)">
+                  </ngx-charts-bar-vertical>
+              </div>
+          </mat-card-content>
+      </mat-card>
+  </div>
+</div>

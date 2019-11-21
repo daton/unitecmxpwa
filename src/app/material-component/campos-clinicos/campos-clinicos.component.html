@@ -1,0 +1,241 @@
+<!-- Termina la parte de la tabla de campos-->
+<!-------------------------------------------------------------------------------------------------->
+<!-- ============================================================== -->
+<!-- row -->
+<!-- ============================================================== -->
+<div fxLayout="row wrap">
+  <!-- Card column -->
+  <div fxFlex.gt-sm="100%" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>Campos Clínicos</mat-card-title>
+      </mat-card-content>
+      <mat-tab-group class="demo-tab-group"  [selectedIndex]="indiceTab"   (selectedTabChange)="onTabChanged($event);">
+
+        <!-- Empieza tab de alta de campos clinicos-->
+        <!-- EMPIEZAN LOS TABS -------------------------------------------------------------------->
+          <!--EMPEIZA TAB DE BUSQUEDA DE TODOS LOS CAMPOS CLÍNICOS-->
+        <!------------------------------------------------------------------>
+        <mat-tab label="Búsqueda">
+          <p>  Lista de campos clínicos dados de alta.</p>
+            <div class="demo-tab-content">
+              <!-- eEmpieza mostrar tabla de campos clinicos-->
+  
+  
+  
+  
+  
+              <div class="bg-light p-10 p-r-20 p-l-20">
+                <mat-form-field>
+                  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar">
+                </mat-form-field>
+              </div>
+              <div class="responsive-table">
+                <mat-table #table [dataSource]="dataSource" *ngIf="tablaCampos">
+  
+                  <!-- Position Column -->
+                  <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef> Editar. </mat-header-cell>
+                    <mat-cell *matCellDef="let campo">
+                      <button mat-button class="fondo" (click)="modificar(campo.id)">
+                        <mat-icon>person</mat-icon>Cambiar</button>
+                      <button  (click)="borrarCampoClinico(campo.id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>   
+  
+                    </mat-cell>
+                  </ng-container>
+  
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="campus">
+                    <mat-header-cell *matHeaderCellDef> Campus </mat-header-cell>
+                    <mat-cell *matCellDef="let campo">
+                      <span class="header-label">Campus:</span>
+                      {{campo.campus}}
+                    </mat-cell>
+                  </ng-container>
+  
+                  <!-- Weight Column -->
+                  <ng-container matColumnDef="sede">
+                    <mat-header-cell *matHeaderCellDef> sede </mat-header-cell>
+                    <mat-cell *matCellDef="let campo">
+                      <span class="header-label">Sede:</span>
+                      {{campo.sede}}
+                    </mat-cell>
+                  </ng-container>
+  
+                  <!-- Symbol Column -->
+                  <ng-container matColumnDef="direccion">
+                    <mat-header-cell *matHeaderCellDef> Dirección </mat-header-cell>
+                    <mat-cell *matCellDef="let campo">
+                      <span class="header-label">Direccion:</span>
+                      {{campo.direccion}}
+                    </mat-cell>
+                  </ng-container>
+  
+  
+  
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+              </div>
+            </div>
+          </mat-tab>
+  
+         <!-- EMPIEZA TAB DE AGREGAR  NUEVO CAMPOS CLINICO--> 
+        <mat-tab label="Agregar">
+
+          <div class="demo-tab-content">
+
+
+            <!-- PRIMERO NECSITAMOS LA direccion y latitud y longtud  para autollenar esos campos
+            en el formulario-->
+
+            <div fxLayout="row wrap">
+              <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                <div #info id="info" class="container">
+                  <p>Primero ubique el nuevo campo clínico en el mapa, posteriormente proporcione los datos generales.
+                  </p>
+                  <div class="form-group">
+                   
+                    <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()"
+                      placeholder="Escriba aquí la dirección del campo a dar de alta" [(ngModel)]="miDireccion"
+                      name="miDireccion" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search>
+                    <button mat-raised-button class="fondo" (click)="buscarDireccion()">Buscar</button>
+
+
+                  </div>
+
+                  <p>Dirección: {{address}}</p>
+                  <p>Latitud: {{latitude}}</p>
+                  <p>Longitud: {{longitude}}</p>
+
+
+                  <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+                    <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true"
+                      (dragEnd)="markerDragEnd($event)"></agm-marker>
+                  </agm-map>
+
+
+                </div>
+              </div>
+            </div>
+
+            <!--INICIA ALTA CAMPOS CLINICOS-->
+            <!--*************************************************************************************-->
+            <div>
+              <div fxLayout="row wrap">
+                <div fxFlex.gt-sm="100" fxFlex="100">
+                  <mat-card>
+                    <mat-card-content>
+                      <mat-card-title>Datos generales</mat-card-title>
+                      <!-- ============================================================== -->
+                      <!-- column -->
+                      <!-- ============================================================== -->
+                      <form [formGroup]="formitaCampo">
+                        <div fxLayout="row wrap">
+
+                          <!---CLAVE PROFSOR-->
+                          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field>
+                              <input matInput placeholder="Sede:" name="sede" [(ngModel)]="campo.sede"
+                                [formControl]="formitaCampo.controls['fsede']">
+                            </mat-form-field>
+                            <mat-hint
+                              *ngIf="formitaCampo.controls['fsede'].hasError('required') && formitaCampo.controls['fsede'].touched"
+                              class="text-danger font-14">Debes Escribir la sede, es obligatorio</mat-hint>
+
+                          </div>
+
+                          <!--TERMINA CLAVE-->
+                          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field>
+                              <input matInput placeholder="Director" name="director" [(ngModel)]="campo.director"
+                                [formControl]="formitaCampo.controls['fdirector']">
+                            </mat-form-field>
+                            <mat-hint
+                              *ngIf="formitaCampo.controls['fdirector'].hasError('required') && formitaCampo.controls['fdirector'].touched"
+                              class="text-danger font-14">Debes escribir el nombre del director, es obligatorio
+                            </mat-hint>
+                          </div>
+
+                          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field>
+                              <input matInput placeholder="Correo electrónico" name="correo" [(ngModel)]="campo.correo"
+                                [formControl]="formitaCampo.controls['fcorreo']">
+                            </mat-form-field>
+                            <mat-hint
+                              *ngIf="formitaCampo.controls['fcorreo'].hasError('required') && formitaCampo.controls['fcorreo'].touched"
+                              class="text-danger font-14">Debes escribir el correo electronico del campo clínico, es
+                              obligatorio</mat-hint>
+                            <mat-hint
+                              *ngIf="formitaCampo.controls['fcorreo'].errors?.email && formitaCampo.controls['fcorreo'].touched"
+                              class="text-danger font-14">Su correo no es válido.</mat-hint>
+                          </div>
+
+                          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field>
+                              <input matInput placeholder="Dirección" name="direccion" readonly [(ngModel)]="campo.direccion"
+                                [formControl]="formitaCampo.controls['fdireccion']">
+                            </mat-form-field>
+                            <mat-hint
+                              *ngIf="formitaCampo.controls['fdireccion'].hasError('required') && formitaCampo.controls['fdireccion'].touched"
+                              class="text-danger font-14">Debes asingnar la direccion desde el mapa, es obligatorio
+                            </mat-hint>
+
+                          </div>
+                          <!--Inicia lat-->
+                          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field>
+                              <input matInput placeholder="Latitud" name="latitud"  readonly [(ngModel)]="campo.lat"
+                                [formControl]="formitaCampo.controls['flat']">
+                            </mat-form-field>
+                            <mat-hint
+                              *ngIf="formitaCampo.controls['flat'].hasError('required') && formitaCampo.controls['flat'].touched"
+                              class="text-danger font-14">Debes asignar la direccion desde el mapa, es obligatorio
+                            </mat-hint>
+
+                          </div>
+
+                          <!-- Termina latitud-->
+
+                          <!--Inicia  Longitud-->
+                          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field>
+                              <input matInput placeholder="Longitud" name="lon"   readonly [(ngModel)]="campo.lon"
+                                [formControl]="formitaCampo.controls['flon']">
+                            </mat-form-field>
+                            <mat-hint
+                              *ngIf="formitaCampo.controls['flon'].hasError('required') && formitaCampo.controls['flon'].touched"
+                              class="text-danger font-14">Debes asignar la dirección desde el mapa, es obligatorio
+                            </mat-hint>
+
+                          </div>
+                          <!--Termina horari de salida-->
+                        </div>
+
+                        <button mat-raised-button class="fondo" [disabled]="!formitaCampo.valid"
+                          (click)="guardarCampos()">Guardar Campo</button>
+                      </form>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- TERMINA  ALTA DE CAMPOS CLINICO---------------------------------------------------------->
+          </div>
+        </mat-tab>
+
+      
+
+        <!-- TERMINA TAB DE ALTAS CLINICOS------------------------------------------------------------->
+      
+        <!--------------------------------------------------------------------------------------------------->
+        <!-- TERMINAN TODOS LOS TABS-->
+
+      </mat-tab-group>
+    </mat-card>
+  </div>
+</div>

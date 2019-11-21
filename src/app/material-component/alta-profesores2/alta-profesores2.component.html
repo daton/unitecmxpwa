@@ -1,0 +1,237 @@
+<!-- row -->
+<!-- ============================================================== -->
+<div fxLayout="row wrap">
+  <!-- Card column -->
+  <div fxFlex.gt-sm="100%" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>Profesores</mat-card-title>
+      </mat-card-content>
+      <mat-tab-group class="demo-tab-group" [selectedIndex]="indiceTab" (selectedTabChange)="onTabChanged($event);">
+        <!--PRIMR TAB DEL LISTADO DE TODOS LOS PROFESORES-->
+        <!-- ----------------------------------------------------------------------------------------------->
+        <!-------------------------------------------------------------------------------------------------->
+        <mat-tab label="Profesores">
+          <div class="demo-tab-content">
+            <!-- AQUI VA EL LISTADO DE TODOS LOS PROFESORES DADOS DE ALTA-->
+            <!--EMPIEZA TABLA E MOSTRADO DE TODOS LOS PROFESORES-->
+            Profesores dados de alta
+            <div class="responsive-table">
+              <mat-table #table [dataSource]="dataSource" matSort>
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="nip">
+                  <mat-header-cell *matHeaderCellDef> Modificar. </mat-header-cell>
+                  <mat-cell *matCellDef="let profe">
+                    <button mat-button class="fondo" (click)="modificar(profe.id)">
+                      <mat-icon>person</mat-icon>
+                      Cambiar
+                    </button>
+
+                    <button (click)="borrarProfesor(profe.id)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef>Clave </mat-header-cell>
+                  <mat-cell *matCellDef="let profe">
+                    <span class="header-label">Clave:</span>
+                    {{profe.id}}
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="nombre">
+                  <mat-header-cell *matHeaderCellDef    mat-sort-header> Nombre </mat-header-cell>
+                  <mat-cell *matCellDef="let profe">
+                    <span class="header-label">Nombre:</span>
+                    {{profe.nombre}}
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="email">
+                  <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+                  <mat-cell *matCellDef="let profe">
+                    <span class="header-label">Email:</span>
+                    {{profe.email}}
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+            </div>
+
+          </div>
+        </mat-tab>
+        <!-- TERMINA TAB DE TODOS LOS PROFSORES------------------------------------------------------->
+        <mat-tab label="Agregar">
+
+          <div class="demo-tab-content">
+            <!--INICIA ALTA PREOFESORES-->
+            <!--*************************************************************************************-->
+            <div>
+              <div fxLayout="row wrap">
+                <div fxFlex.gt-sm="100" fxFlex="100">
+                  <mat-card>
+                    <mat-card-content>
+                      <mat-card-title>Datos del profesor</mat-card-title>
+                      <!-- ============================================================== -->
+                      <!-- column -->
+                      <!-- ============================================================== -->
+                      <form [formGroup]="formitaPerfil">
+                        <div fxLayout="row wrap">
+
+                          <!---CLAVE PROFSOR-->
+                          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field>
+                              <input matInput placeholder="Clave de profesor:" name="id" [(ngModel)]="perfil.id"
+                                [formControl]="formitaPerfil.controls['fid']">
+                            </mat-form-field>
+                            <mat-hint
+                              *ngIf="formitaPerfil.controls['fid'].hasError('required') && formitaPerfil.controls['fid'].touched"
+                              class="text-danger font-14">Debes escribir la clave del profesor, es obligatorio
+                            </mat-hint>
+
+                          </div>
+
+                          <!--TERMINA CLAVE-->
+                          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field>
+                              <input matInput placeholder="Nombre:" name="nombre" [(ngModel)]="perfil.nombre"
+                                [formControl]="formitaPerfil.controls['fnombre']">
+                            </mat-form-field>
+                            <mat-hint
+                              *ngIf="formitaPerfil.controls['fnombre'].hasError('required') && formitaPerfil.controls['fnombre'].touched"
+                              class="text-danger font-14">Debes escribir tu nombre, es obligatorio</mat-hint>
+                          </div>
+
+                          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field>
+                              <input matInput placeholder="Apellido Paterno:" name="paterno"
+                                [(ngModel)]="perfil.paterno" [formControl]="formitaPerfil.controls['fpaterno']">
+                            </mat-form-field>
+                            <mat-hint
+                              *ngIf="formitaPerfil.controls['fpaterno'].hasError('required') && formitaPerfil.controls['fpaterno'].touched"
+                              class="text-danger font-14">Debes escribir tu a. paterno, es obligatorio</mat-hint>
+
+                          </div>
+
+                          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field>
+                              <input matInput placeholder="Apellido Materno:" name="materno"
+                                [(ngModel)]="perfil.materno" [formControl]="formitaPerfil.controls['fmaterno']">
+                            </mat-form-field>
+                            <mat-hint
+                              *ngIf="formitaPerfil.controls['fmaterno'].hasError('required') && formitaPerfil.controls['fmaterno'].touched"
+                              class="text-danger font-14">Debes escribir tu a. materno, es obligatorio</mat-hint>
+
+                          </div>
+                          <!--Inicia Horario entrada-->
+                          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field>
+                              <input matInput placeholder="Hora de entrada:" name="entrada" type="time"
+                                [(ngModel)]="perfil.entrada" [formControl]="formitaPerfil.controls['fentrada']">
+                            </mat-form-field>
+                            <mat-hint
+                              *ngIf="formitaPerfil.controls['fentrada'].hasError('required') && formitaPerfil.controls['fentrada'].touched"
+                              class="text-danger font-14">Debes escribir la hora de entrada, es obligatorio</mat-hint>
+
+                          </div>
+
+                          <!-- Termina horario entrada-->
+
+                          <!--Inicia  Horario de salida-->
+                          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field>
+                              <input matInput placeholder="Hora de salida:" name="salida" type="time"
+                                [(ngModel)]="perfil.salida" [formControl]="formitaPerfil.controls['fsalida']">
+                            </mat-form-field>
+                            <mat-hint
+                              *ngIf="formitaPerfil.controls['fsalida'].hasError('required') && formitaPerfil.controls['fsalida'].touched"
+                              class="text-danger font-14">Debes escribir la hora de salida, es obligatorio</mat-hint>
+
+                          </div>
+                          <!--Termina horari de salida-->
+
+                          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                            <mat-form-field>
+                              <input matInput placeholder="Contraseña:" name="nip" [(ngModel)]="perfil.nip"
+                                [formControl]="formitaPerfil.controls['fnip']">
+                            </mat-form-field>
+                            <mat-hint
+                              *ngIf="formitaPerfil.controls['fnip'].hasError('required') && formitaPerfil.controls['fnip'].touched"
+                              class="text-danger font-14">Debes escribir tu NIP, es obligatorio</mat-hint>
+                            <mat-hint
+                              *ngIf="formitaPerfil.controls['fnip'].hasError('minlength') && formitaPerfil.controls['fnip'].touched"
+                              class="text-danger font-14">Tu NIP debe tener mínimo 4 caracteres.</mat-hint>
+                          </div>
+                          <!--INICIA AUTOCOMPLETE-------------------------------------------------------->
+                     
+
+                          
+
+                              <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+                               Sede actual: {{sedeDefecto}}
+                                	<mat-form-field>
+                                     
+                                          <mat-select placeholder="Campo clínico:" [(ngModel)]="sedeCampo" name="sede"  [value]="sedeCampo"  [ngModelOptions]="{standalone: true}">
+                                            <mat-option *ngFor="let campo of campos" [value]="campo.sede">
+                                              {{campo.sede}}
+                                            </mat-option>
+                                          </mat-select>
+                                       
+                                    </mat-form-field>
+                                 
+                                </div>
+
+
+
+
+
+
+                          <!-- TEERMINA PARTE DE AUTOCOMPLETE------------------------------------------------ -->
+                          <div class="p-10" fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+
+                            <mat-form-field>
+                              <input matInput placeholder="Correo electrónico:" name="email" [(ngModel)]="perfil.email"
+                                [formControl]="formitaPerfil.controls['femail']">
+                            </mat-form-field>
+                            <mat-hint
+                              *ngIf="formitaPerfil.controls['femail'].hasError('required') && formitaPerfil.controls['femail'].touched"
+                              class="text-danger font-14">Debe escribir su correo </mat-hint>
+                            <mat-hint
+                              *ngIf="formitaPerfil.controls['femail'].errors?.email && formitaPerfil.controls['femail'].touched"
+                              class="text-danger font-14">Su correo no es válido.</mat-hint>
+                          </div>
+                        </div>
+
+                        <button mat-raised-button class="fondo" [disabled]="!formitaPerfil.valid"
+                          (click)="guardarProfesor()">Guardar cambios</button>
+                      </form>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+
+            </div>
+            <!--TERMINA ALTA PROFESORES-->
+            <!--***************************************************************************************-->
+
+          </div>
+        </mat-tab>
+        <!--TERMINA TAB DE ALTA DE PROFESORE--------------------------------------------------------------->
+        <!----------------------------------------------------------------------------------------------->
+
+
+
+
+      </mat-tab-group>
+    </mat-card>
+  </div>
+</div>

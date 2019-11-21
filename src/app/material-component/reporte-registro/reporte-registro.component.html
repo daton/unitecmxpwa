@@ -1,0 +1,81 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+  <div fxFlex.gt-sm="100" fxFlex.gt-xs="100" fxFlex="100">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>Reporte registro</mat-card-title>
+        <div *ngIf="!mostrarMapa">
+          <div class="bg-light p-10 p-r-20 p-l-20">
+            <p>En la columna de Momento se muestra los registros, si éstos están rojo, se hizo el chequeo
+              de entrada a más de 70 metros del campo clínico, si aparecen en azul, se hizo en el lugar del campos
+              clínico.<br>
+              Al hacer click en el Momento deseado, se mostrará en el mapa el lugar del chequeo.
+            </p>
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar">
+            </mat-form-field>
+          </div>
+          <mat-card-actions>
+            <button mat-raised-button class="fondo" (click)="exportToExcel()">Descargar Excel</button>
+          </mat-card-actions>
+          <div class="responsive-table">
+            <mat-table [dataSource]="dataSource" matSort>
+
+              <!-- ID Column -->
+              <ng-container matColumnDef="fecha">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.fecha}} </mat-cell>
+              </ng-container>
+
+
+            
+
+              <!-- Progress Column -->
+              <ng-container matColumnDef="horario">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Horario </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.horario}}</mat-cell>
+              </ng-container>
+
+              <!-- Progress Column -->
+              <ng-container matColumnDef="momento">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Momento </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+
+                  <button mat-button [ngStyle]="{'color':(row.distancia>70)?'red':'blue'}"
+                    (click)="verLocalizacion(row)">
+
+                    {{row.momento}}
+                  </button>
+                </mat-cell>
+              </ng-container>
+              <!-- Progress Column -->
+              <ng-container matColumnDef="profesor">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Profesor </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.profesor}}</mat-cell>
+              </ng-container>
+              <!-- Progress Column -->
+              <ng-container matColumnDef="clave">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Clave </mat-header-cell>
+                <mat-cell *matCellDef="let row"> {{row.clave}}</mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;">
+              </mat-row>
+            </mat-table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+          </div>
+        </div>
+        <!--termina aqui la tablita donde se debe ocultar esta con el mapa-->
+
+        <!---Mostrar el mapita-->
+        <div *ngIf="mostrarMapa">
+          <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+            <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+          </agm-map>
+          <button mat-raised-button class="fondo" (click)="regresarATabla()">Cerrar mapa</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
